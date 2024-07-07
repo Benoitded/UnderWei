@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import { useRouter } from "next/router";
 
-import styles from "./Index.module.scss";
+import styles from "./index.module.scss";
 
 export default function Page() {
   return (
