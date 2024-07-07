@@ -22,6 +22,7 @@ import Head from "next/head";
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi";
 import Web3ModalProvider from "@/context";
 import { config } from "@/config";
+import { Toaster } from "react-hot-toast";
 
 const DynamicPool = dynamic(() => import("../components/layout.js"), {
   ssr: false,
@@ -30,6 +31,15 @@ const DynamicPool = dynamic(() => import("../components/layout.js"), {
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: "#111",
+            color: "#FFF",
+          },
+        }}
+      />
       <Web3ModalProvider>
         <DynamicPool>
           <Head>

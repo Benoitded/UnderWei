@@ -6,7 +6,6 @@
   .logo,
   .connect {
     width: 120px;
-    min-width: 120px;
   }
   .connect {
     display: flex;
@@ -21,6 +20,7 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
       &:hover,
       &.current {
         text-decoration: underline;
