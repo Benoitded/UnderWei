@@ -35,22 +35,12 @@ const Header: React.FC = () => {
         <Image src={FavIcon} height={40} alt="Logo of the project" />
       </Link>
       <div className={styles.menu}>
-        <Link className={styles.itemMenu} href={"/menu-1"}>
-          Menu 1
+        <Link className={styles.itemMenu} href={"/"}>
+          Bridge
         </Link>
-        <Link className={styles.itemMenu} href={"/menu-2"}>
-          Menu 2
+        <Link className={styles.itemMenu} href={"/offers"}>
+          My offers
         </Link>
-        <Link className={styles.itemMenu} href={"/menu-3"}>
-          Menu 3
-        </Link>
-        <a
-          className={styles.itemMenu}
-          href="https://twitter.com/"
-          target="_blank"
-        >
-          Docs
-        </a>
       </div>
       {!isConnected ? (
         <div className={styles.connect} onClick={handleConnect}>
