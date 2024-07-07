@@ -1,0 +1,141 @@
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+:root {
+    --main-grey: #DADADA;
+    /* --main-red: #E91414; */
+    --main-red-light: #E9141433;
+    --main-white: #FFFFFF;
+    --main-blue: #1B14E9;
+    /* ----- */
+    /* --main-background: #FFFFFF;
+    --main-border: #000000;
+    --main-text: #000000;
+    --second-text: hsla(0, 0%, 0%, 0.6);
+    --third-text: rgba(0, 0, 0, 0.3);
+    --light-text: rgba(0, 0, 0, 0.1);
+    --border-width: -2px; */
+    /* ----- */
+    --main-background: #000000;
+    --main-border: #ffffff;
+    --main-text: #ffffff;
+    --second-text: rgba(255, 255, 255, 0.6);
+    --third-text: rgba(255, 255, 255, 0.075);
+    --light-text: #1E1F31;
+    --border-width: -2px;
+    --main-green: #70f78f;
+    --green-background: #16b93c54;
+    --main-red: #f07373;
+    --red-background: #b9161654;
+    --main-warning: #a26b3d;
+}
+
+.App {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: var(--border-width);
+}
+
+.App>* {
+    /* margin-bottom: -2px; */
+}
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: var(--main-background);
+    /* background-image: url("../assets/background.png"); */
+    color: var(--main-text);
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 500;
+    min-height: 100vh;
+    box-sizing: border-box;
+    border-top: 0;
+    font-size: 16px;
+}
+
+.imgBackground {
+    position: fixed;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: auto;
+        height: 100vh;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    border: inherit;
+    width: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    background-color: inherit;
+    padding: 0;
+    color: var(--main-text);
+    cursor: pointer;
+}
+
+input {
+    padding: inherit;
+    color: var(--main-text);
+}
+
+input:focus {
+    outline: none;
+}
+
+.container {
+    width: 100%;
+    box-sizing: border-box;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+}
+
+
+/**********WalletConnect********/
+
+.partial-connect-button {
+    width: 100%;
+}
+
+.component-big-button {
+    width: 100%;
+}
+
+.partial-connect-spinner {
+    width: auto;
+}
+
+.tooltip {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    background-color: #404681;
+    font-size: 12px;
+    border-radius: 6px;
+    /* width: 100%; */
+    max-width: 200px;
+}
+
+.tooltip>.headerTooltip {
+    font-weight: 700;
+}
+
+
+/* Dynamics */
+
+.dynamic-shadow-dom {
+    --dynamic-brand-primary-color: #721360;
+}

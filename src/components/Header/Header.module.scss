@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  .logo,
+  .connect {
+    width: 200px;
+    min-width: 200px;
+  }
+  .connect {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+  .menu {
+    display: flex;
+    .itemMenu {
+      padding: 7px 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
