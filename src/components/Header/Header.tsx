@@ -28,6 +28,11 @@ const Header: React.FC = () => {
     console.log("Connect");
     open();
   }
+
+  const isActive = (path: string) => {
+    return router.pathname === path;
+  };
+
   // Render
   return (
     <header className={styles.header}>
@@ -35,10 +40,20 @@ const Header: React.FC = () => {
         <Image src={FavIcon} height={40} alt="Logo of the project" />
       </Link>
       <div className={styles.menu}>
-        <Link className={styles.itemMenu} href={"/"}>
+        <Link
+          className={`${styles.itemMenu}
+          ${isActive("/") ? styles.current : ""}
+          `}
+          href={"/"}
+        >
           Bridge
         </Link>
-        <Link className={styles.itemMenu} href={"/offers"}>
+        <Link
+          className={`${styles.itemMenu}
+          ${isActive("/offers") ? styles.current : ""}
+          `}
+          href={"/offers"}
+        >
           My offers
         </Link>
       </div>

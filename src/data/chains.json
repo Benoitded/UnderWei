@@ -8,35 +8,35 @@
   },
   {
     "name": "Amoy",
-    "chain_id": 137,
+    "chain_id": 80002,
     "image_url": "https://qboizbrjtkumfrvstono.supabase.co/storage/v1/object/public/pictures_blockchains/Polygon.png",
     "isDisabled": false,
     "explorer_url": "https://www.oklink.com/amoy/"
   },
   {
     "name": "Arbitrum Sepolia",
-    "chain_id": 421613,
+    "chain_id": 421614,
     "image_url": "https://qboizbrjtkumfrvstono.supabase.co/storage/v1/object/public/pictures_blockchains/Arbitrum.png",
     "isDisabled": true,
     "explorer_url": "https://sepolia.arbiscan.io/"
   },
   {
     "name": "Base Sepolia",
-    "chain_id": 84531,
+    "chain_id": 84532,
     "image_url": "https://qboizbrjtkumfrvstono.supabase.co/storage/v1/object/public/pictures_blockchains/Base.png",
     "isDisabled": true,
     "explorer_url": "https://sepolia.basescan.org/"
   },
   {
     "name": "zkSync Sepolia",
-    "chain_id": 280,
+    "chain_id": 300,
     "image_url": "https://qboizbrjtkumfrvstono.supabase.co/storage/v1/object/public/pictures_blockchains/ZKsync.png",
     "isDisabled": true,
     "explorer_url": "https://sepolia.explorer.zksync.io/"
   },
   {
     "name": "Optimism Sepolia",
-    "chain_id": 420,
+    "chain_id": 11155420,
     "image_url": "https://qboizbrjtkumfrvstono.supabase.co/storage/v1/object/public/pictures_blockchains/Optimism.png",
     "isDisabled": true,
     "explorer_url": "https://sepolia-optimism.etherscan.io/"

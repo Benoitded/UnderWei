@@ -11,7 +11,7 @@ import {
 } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http } from "viem";
-import { mainnet, sepolia } from "viem/chains";
+import { mainnet, holesky, polygonAmoy } from "viem/chains";
 
 import "../styles/globals.css";
 

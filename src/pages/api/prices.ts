@@ -8,6 +8,7 @@ interface Token {
   image_url: string;
   contract: string;
   contract_mainnet: string;
+  default_value: number;
 }
 
 interface TokenPrice {
@@ -60,7 +61,7 @@ async function fetchDexScreenerPrice(
     try {
       const url = `https://api.dexscreener.com/latest/dex/tokens/${address}`;
       console.log(url);
-      const response = await axios.get(url);
+      const response = await axios.get(url, { timeout: 3000 });
       await wait(150);
 
       let usd, usd_24h_change;
@@ -97,7 +98,7 @@ async function fetchDexScreenerPrice(
       );
       console.error(error.response);
       tokenPriceMap[address.toLowerCase()] = {
-        usd: 0,
+        usd: tokenData.default_value,
         usd_24h_change: 0,
       };
     }

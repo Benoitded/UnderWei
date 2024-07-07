@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
+import {
+  useAccount,
+  useReadContract,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import ListTokens from "../ListTokens/ListTokens";
 import styles from "./InterfaceBridge.module.scss";
 import chainsData from "../../data/chains.json";
 import tokensData from "../../data/tokens.json"; // Import tokens data
+import auctionABI from "../../ABI/auction.json"; // Import auction ABI
+import addresses from "../../ABI/address.json"; // Import addresses
+import erc20ABI from "../../ABI/erc20ABI.json"; // Import addresses
+import { holesky, polygonAmoy } from "wagmi/chains";
+import BigNumber from "bignumber.js";
+import { ethers, formatEther, parseEther } from "ethers";
+import { toast } from "react-hot-toast";
 
 interface TokenData {
   name: string;
@@ -16,20 +29,65 @@ interface TokenData {
 }
 
 const InterfaceBridge: React.FC = () => {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { open } = useWeb3Modal();
 
   const [whatToDisplay, setWhatToDisplay] = useState<
     "inputs" | "tokensSource" | "tokensDest"
   >("inputs");
 
-  const [tokenSource, setTokenSource] = useState<TokenData | null>(null);
-  const [tokenDest, setTokenDest] = useState<TokenData | null>(null);
-  const [sourceAmount, setSourceAmount] = useState<number>(0);
-  const [destAmount, setDestAmount] = useState<number>(0);
+  const defaultTokenSource: TokenData = {
+    ...tokensData.Holesky[0],
+    chain_id: 17000,
+  };
+  const defaultTokenDest: TokenData = {
+    ...tokensData.Amoy[2],
+    chain_id: 80002,
+  };
+
+  const [tokenSource, setTokenSource] = useState<TokenData | null>(
+    defaultTokenSource
+  );
+  const [tokenDest, setTokenDest] = useState<TokenData | null>(
+    defaultTokenDest
+  );
+  const [sourceAmount, setSourceAmount] = useState<number>();
+  const [destAmount, setDestAmount] = useState<number>();
   const [prices, setPrices] = useState<{ [key: string]: number }>({});
   const [acceptedRate, setAcceptedRate] = useState<number>(0);
   const [timeFrame, setTimeFrame] = useState<number>(7);
+  const [allowance, setAllowance] = useState<BigNumber>(new BigNumber(0));
+  const { switchChain } = useSwitchChain();
+
+  const { data: hash, writeContract } = useWriteContract();
+  const { isLoading, isSuccess, isError } = useWaitForTransactionReceipt({
+    hash,
+    pollingInterval: 500,
+  });
+
+  const addressContract =
+    tokenSource?.chain_id === 17000
+      ? addresses.Holesky.AuctionReward
+      : addresses.Amoy.AuctionReward;
+
+  const { data: allowanceData } = useReadContract({
+    address: tokenSource?.contract as `0x${string}`,
+    abi: erc20ABI,
+    functionName: "allowance",
+    args: [address, addresses.Holesky.AuctionReward],
+  });
+
+  useEffect(() => {
+    if (tokenSource && tokenSource.chain_id) {
+      switchChain({ chainId: tokenSource.chain_id });
+    }
+  }, [tokenSource?.chain_id]);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setAllowance(new BigNumber(formatEther(allowanceData as string)));
+    }
+  }, [allowanceData, sourceAmount]);
 
   useEffect(() => {
     if (tokenSource && tokenDest) {
@@ -57,7 +115,7 @@ const InterfaceBridge: React.FC = () => {
         newPrices[tokenDest.contract_mainnet]
       ) {
         const destAmount =
-          (sourceAmount * newPrices[tokenSource.contract_mainnet]) /
+          ((sourceAmount || 0) * newPrices[tokenSource.contract_mainnet]) /
           newPrices[tokenDest.contract_mainnet];
         setDestAmount(destAmount);
       }
@@ -104,6 +162,7 @@ const InterfaceBridge: React.FC = () => {
         (amount * prices[tokenSource.contract_mainnet]) /
         prices[tokenDest.contract_mainnet];
       setDestAmount(destAmount);
+      setAcceptedRate(destAmount || 0);
     }
   };
 
@@ -112,6 +171,101 @@ const InterfaceBridge: React.FC = () => {
     if (amount < 10) return 0.001;
     if (amount < 100) return 0.01;
     return 0.1;
+  };
+
+  useEffect(() => {
+    console.log("New hash: ", hash);
+  }, [hash]);
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Transaction is pending...", { id: hash });
+    }
+  }, [isLoading]);
+  useEffect(() => {
+    if (isError) {
+      toast.error("The transaction failed.", { id: hash });
+    }
+  }, [isError]);
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("Transaction successful, refetching data ...");
+      toast.success(
+        <div className="confirmedTransaction">
+          Transaction hash confirmed!
+          <a
+            href={`https://holesky.etherscan.io/tx/${hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on Etherscan
+          </a>
+        </div>,
+        { id: hash }
+      );
+    }
+  }, [isSuccess]);
+
+  function makeTheBid() {
+    console.log("make the biddd");
+    const startingPriceInWei = parseEther((acceptedRate || 0).toString());
+    const endPriceInWei = parseEther((destAmount || 0).toString());
+    const amountForSaleInWei = parseEther((sourceAmount || 0).toString());
+    // need to do the same with destAmount
+    const args = [
+      tokenSource?.contract,
+      tokenDest?.contract,
+      startingPriceInWei,
+      endPriceInWei,
+      new BigNumber(timeFrame * 24 * 60 * 60).toString(), // Convert days to seconds
+      amountForSaleInWei,
+      tokenSource?.chain_id,
+      tokenDest?.chain_id,
+    ];
+
+    console.log(args);
+
+    try {
+      writeContract({
+        abi: auctionABI,
+        address: addressContract as `0x${string}`,
+        functionName: "createAuction",
+        args,
+        chainId: tokenSource?.chain_id,
+      });
+      console.log("on ecrit");
+    } catch (error) {
+      console.error("Failed to create auction:", error);
+    }
+  }
+
+  const approveToken = async () => {
+    console.log("Got for the approve");
+    console.log("Current approval: ", allowanceData);
+    const valueToApprove = parseEther((sourceAmount || 0).toString());
+
+    const args = [addressContract, valueToApprove];
+    console.log("args", args);
+    try {
+      writeContract({
+        abi: erc20ABI,
+        address: tokenSource?.contract as `0x${string}`,
+        functionName: "approve",
+        args,
+        chainId: tokenSource?.chain_id,
+      });
+      console.log("on ecrit");
+    } catch (error) {
+      console.error("Failed to create auction:", error);
+    }
+  };
+
+  const switchTokens = () => {
+    const tempToken = tokenSource;
+    const tempAmount = sourceAmount;
+    setTokenSource(tokenDest);
+    setTokenDest(tempToken);
+    setSourceAmount(destAmount);
+    setDestAmount(tempAmount);
   };
 
   return (
@@ -125,6 +279,9 @@ const InterfaceBridge: React.FC = () => {
         </button>
       )}
       <div className={styles.lineTokens}>
+        <button className={styles.switchBtn} onClick={switchTokens}>
+          ↔
+        </button>
         <button className={styles.tokenSource} onClick={handleClickTokenSource}>
           {tokenSource ? (
             <>
@@ -186,6 +343,7 @@ const InterfaceBridge: React.FC = () => {
                   type="number"
                   value={sourceAmount}
                   onChange={handleSourceAmountChange}
+                  placeholder="Amount"
                 />
               </>
             ) : (
@@ -207,7 +365,12 @@ const InterfaceBridge: React.FC = () => {
                     />
                   </div>
                 </div>
-                <input type="number" value={destAmount} readOnly />
+                <input
+                  type="number"
+                  value={destAmount}
+                  readOnly
+                  placeholder="Recommended value"
+                />
               </>
             ) : (
               "Input amount destination token/chain"
@@ -222,14 +385,15 @@ const InterfaceBridge: React.FC = () => {
               type="range"
               min="0"
               max={destAmount}
-              step={getStepValue(destAmount)}
-              onChange={(e) => setAcceptedRate(Number(e.target.value))}
+              step={getStepValue(destAmount || 0)}
+              value={acceptedRate}
+              onChange={(e) => setAcceptedRate(Number(e.target.value) || 0)}
               className={styles.slider}
             />
           </div>
           <div className={styles.rangeDiv}>
             <div className={styles.firstLineRange}>
-              <div>Lowest accepted rate</div>
+              <div>Time frame</div>
               <div>{timeFrame} days</div>
             </div>
             <input
@@ -252,7 +416,15 @@ const InterfaceBridge: React.FC = () => {
         />
       )}
       {isConnected ? (
-        <button className={styles.bridgeButton}>Click to bridge</button>
+        allowance.isGreaterThanOrEqualTo(sourceAmount || 0) ? (
+          <button className={styles.bridgeButton} onClick={makeTheBid}>
+            Click to bridge
+          </button>
+        ) : (
+          <button className={styles.bridgeButton} onClick={approveToken}>
+            Approve Token
+          </button>
+        )
       ) : (
         <button className={styles.bridgeButton} onClick={() => open()}>
           Connect
