@@ -109,7 +109,7 @@ After 3,5 days Bob notices that there's an open standing request of 14.925 $USDC
 - [Contracts](https://github.com/Tranquil-Flow/shared-security-hackathon-contracts)
 
 #### AVS
-- §NEED TO ADD Link§
+- [github](https://github.com/asanson1404/underwei-AVS)
 
 #### Contract Addresses (HOLESKY)
 
