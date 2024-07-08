@@ -31,8 +31,6 @@ const DynamicPool = dynamic(() => import("../components/layout.js"), {
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-
-    
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -45,7 +43,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Web3ModalProvider>
         <DynamicPool>
           <Head>
-            <title>Project</title>
+            <title>UnderWei</title>
+            <link rel="icon" href="/favico.ico" sizes="any" />
             <meta
               name="description"
               content="That's a good project!"

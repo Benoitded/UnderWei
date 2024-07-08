@@ -14,7 +14,7 @@ import Image from "next/image";
 
 import styles from "./Header.module.scss";
 
-import FavIcon from "../../app/favicon.ico";
+import FavIcon from "@/assets/underwei_name.svg";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useDisconnect } from "wagmi";
 
