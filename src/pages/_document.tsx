@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         {/* <title>Supabase</title> */}
-        <link rel="icon" href="/ClariFi.png" />
+        <link rel="icon" href="./app/favicon.ico" />
       </Head>
       <body>
         <Main />

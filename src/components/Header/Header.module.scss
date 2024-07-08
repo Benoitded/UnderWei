@@ -1,4 +1,11 @@
 .header {
+  color: black;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  backdrop-filter: blur(20px); /* Background blur */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 15px; /* Rounded corners */
   display: flex;
   justify-content: space-between;
   align-items: center;
