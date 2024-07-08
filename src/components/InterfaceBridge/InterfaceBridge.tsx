@@ -150,6 +150,8 @@ const InterfaceBridge: React.FC = () => {
 
   const handleSourceAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amount = parseFloat(e.target.value);
+    console.log("amount:", amount);
+    console.log("price:", prices);
     setSourceAmount(amount);
     if (
       tokenSource &&
@@ -157,10 +159,13 @@ const InterfaceBridge: React.FC = () => {
       prices[tokenSource.contract_mainnet] &&
       prices[tokenDest.contract_mainnet]
     ) {
+      console.log("tokenSource.decimals:", tokenSource.decimals);
+      console.log("tokenDest.decimals:", tokenDest.decimals);
       const destAmount =
         (amount * prices[tokenSource.contract_mainnet]) /
         prices[tokenDest.contract_mainnet];
       setDestAmount(destAmount);
+      console.log("destAmount:", destAmount);
       setAcceptedRate(destAmount || 0);
     }
   };

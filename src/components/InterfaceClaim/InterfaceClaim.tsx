@@ -66,6 +66,18 @@ const InterfaceClaim: React.FC = () => {
     functionName: "getAllCreatedAuctions",
     chainId: polygonAmoy.id,
   });
+  const { data: acceptedHolesky } = useContractRead({
+    address: addresses.Holesky.AuctionReward as `0x${string}`,
+    abi: auctionABI,
+    functionName: "getAllAcceptedAuctions",
+    chainId: holesky.id,
+  });
+  const { data: acceptedAmoy } = useContractRead({
+    address: addresses.Amoy.AuctionReward as `0x${string}`,
+    abi: auctionABI,
+    functionName: "getAllAcceptedAuctions",
+    chainId: polygonAmoy.id,
+  });
 
   const { data: hash, writeContract } = useWriteContract();
   const { isLoading, isSuccess, isError } = useWaitForTransactionReceipt({
@@ -76,27 +88,49 @@ const InterfaceClaim: React.FC = () => {
   useEffect(() => {
     const combinedAuctions: CreatedAuction[] = [];
 
+    console.log("acceptedAmoy: ", acceptedAmoy);
+
+    // Ensure acceptedAmoy and acceptedHolesky are arrays
+    const acceptedAmoyArray = Array.isArray(acceptedAmoy) ? acceptedAmoy : [];
+    const acceptedHoleskyArray = Array.isArray(acceptedHolesky)
+      ? acceptedHolesky
+      : [];
+
+    const acceptedAmoyIds = new Set(
+      acceptedAmoyArray.map((auction) => Number(auction.auctionId))
+    );
+
+    const acceptedHoleskyIds = new Set(
+      acceptedHoleskyArray.map((auction) => Number(auction.auctionId))
+    );
+
     if (Array.isArray(auctionsHolesky)) {
       console.log("auctionsHolesky", auctionsHolesky);
       combinedAuctions.push(
-        ...auctionsHolesky.map((auction, index) => ({
-          ...auction,
-          id: index,
-        }))
+        ...auctionsHolesky
+          .map((auction, index) => ({
+            ...auction,
+            id: index,
+          }))
+          .filter((auction) => !acceptedAmoyIds.has(auction.id))
       );
     }
+
     if (Array.isArray(auctionsAmoy)) {
       console.log("auctionsAmoy", auctionsAmoy);
       combinedAuctions.push(
-        ...auctionsAmoy.map((auction, index) => ({
-          ...auction,
-          id: index,
-        }))
+        ...auctionsAmoy
+          .map((auction, index) => ({
+            ...auction,
+            id: index,
+          }))
+          .filter((auction) => !acceptedHoleskyIds.has(auction.id))
       );
     }
+
     console.log("totalAuctions: ", combinedAuctions);
     setTotalAuctions(combinedAuctions.filter((e) => e.auctionOpen));
-  }, [auctionsHolesky, auctionsAmoy]);
+  }, [auctionsHolesky, auctionsAmoy, acceptedAmoy, acceptedHolesky]);
 
   function getTokenDetails(contract: string): Token | undefined {
     for (const chain of Object.values(dataTokens)) {
@@ -150,7 +184,7 @@ const InterfaceClaim: React.FC = () => {
         auction.id,
         Number(auction.auctionChainID),
         auction.tokenForPayment,
-        auction.startingPrice,
+        Number(auction.startingPrice),
       ];
       console.log("contractAddress: ", contractAddress);
       console.log("Args: ", args);
