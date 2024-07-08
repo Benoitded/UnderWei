@@ -44,7 +44,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <DynamicPool>
           <Head>
             <title>UnderWei</title>
-            <link rel="icon" href="/favico.ico" sizes="any" />
+            <link rel="icon" href="/logo.ico" sizes="any" />
             <meta
               name="description"
               content="That's a good project!"
