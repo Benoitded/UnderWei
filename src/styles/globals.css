@@ -37,7 +37,6 @@
   height: 100%;
   width: 100%;
   gap: var(--border-width);
-
 }
 
 .App > * {
@@ -49,7 +48,7 @@ body {
   display: flex;
   justify-content: center;
   background-color: var(--main-background);
-background-image: url("./assets/background.png");
+  /* background-image: url("./assets/background.png"); */
   color: var(--main-text);
   font-family: "Satoshi", sans-serif;
   font-weight: 500;
@@ -57,7 +56,6 @@ background-image: url("./assets/background.png");
   box-sizing: border-box;
   border-top: 0;
   font-size: 16px;
-  
 }
 
 .imgBackground {
@@ -69,9 +67,7 @@ background-image: url("./assets/background.png");
   img {
     width: auto;
     height: 100vh;
-    
   }
-  
 }
 
 a {

@@ -19,6 +19,7 @@ import BigNumber from "bignumber.js";
 import { ethers, formatEther, parseEther, parseUnits } from "ethers";
 import { toast } from "react-hot-toast";
 import { Token } from "@/types/generalTypes";
+import InterfaceClaim from "../InterfaceClaim/InterfaceClaim";
 
 interface TokenData extends Token {
   chain_id: number;
@@ -54,6 +55,7 @@ const InterfaceBridge: React.FC = () => {
   const [timeFrame, setTimeFrame] = useState<number>(7);
   const [allowance, setAllowance] = useState<BigNumber>(new BigNumber(0));
   const { switchChain } = useSwitchChain();
+  const [displayAuctions, setDisplayAuctions] = useState<boolean>(true);
 
   const { data: hash, writeContract } = useWriteContract();
   const { isLoading, isSuccess, isError } = useWaitForTransactionReceipt({
@@ -282,62 +284,24 @@ const InterfaceBridge: React.FC = () => {
   };
 
   return (
-    <div className={styles.interfaceBridge}>
-      {whatToDisplay !== "inputs" && (
-        <button
-          className={styles.backBtn}
-          onClick={() => setWhatToDisplay("inputs")}
-        >
-          back
-        </button>
-      )}
-      <div className={styles.lineTokens}>
-        <button className={styles.switchBtn} onClick={switchTokens}>
-          ↔
-        </button>
-        <button className={styles.tokenSource} onClick={handleClickTokenSource}>
-          {tokenSource ? (
-            <>
-              <div className={styles.divImg}>
-                <img
-                  src={tokenSource.image_url}
-                  alt={`${tokenSource.name} logo`}
-                />
-                <div className={styles.blockchainDiv}>
-                  <img
-                    src={getChainUrl(tokenSource.chain_id)}
-                    alt="Logo of blockchain"
-                  />
-                </div>
-              </div>
-              <span>{tokenSource.ticker}</span>
-            </>
-          ) : (
-            "Click to select source token/chain"
-          )}
-        </button>
-        <button className={styles.tokenDest} onClick={handleClickTokenDest}>
-          {tokenDest ? (
-            <>
-              <div className={styles.divImg}>
-                <img src={tokenDest.image_url} alt={`${tokenDest.name} logo`} />
-                <div className={styles.blockchainDiv}>
-                  <img
-                    src={getChainUrl(tokenDest.chain_id)}
-                    alt="Logo of blockchain"
-                  />
-                </div>
-              </div>
-              <span>{tokenDest.ticker}</span>
-            </>
-          ) : (
-            "Click to select destination token/chain"
-          )}
-        </button>
-      </div>
-      {whatToDisplay === "inputs" ? (
-        <>
-          <div className={styles.lineInputSource}>
+    <div className={styles.mainContainer}>
+      <div className={styles.interfaceBridge}>
+        {whatToDisplay !== "inputs" && (
+          <button
+            className={styles.backBtn}
+            onClick={() => setWhatToDisplay("inputs")}
+          >
+            back
+          </button>
+        )}
+        <div className={styles.lineTokens}>
+          <button className={styles.switchBtn} onClick={switchTokens}>
+            ↔
+          </button>
+          <button
+            className={styles.tokenSource}
+            onClick={handleClickTokenSource}
+          >
             {tokenSource ? (
               <>
                 <div className={styles.divImg}>
@@ -352,18 +316,13 @@ const InterfaceBridge: React.FC = () => {
                     />
                   </div>
                 </div>
-                <input
-                  type="number"
-                  value={sourceAmount}
-                  onChange={handleSourceAmountChange}
-                  placeholder="Amount"
-                />
+                <span>{tokenSource.ticker}</span>
               </>
             ) : (
-              "Input amount source token/chain"
+              "Click to select source token/chain"
             )}
-          </div>
-          <div className={styles.lineInputDest}>
+          </button>
+          <button className={styles.tokenDest} onClick={handleClickTokenDest}>
             {tokenDest ? (
               <>
                 <div className={styles.divImg}>
@@ -378,71 +337,127 @@ const InterfaceBridge: React.FC = () => {
                     />
                   </div>
                 </div>
-                <input
-                  type="number"
-                  value={destAmount}
-                  readOnly
-                  placeholder="Recommended value"
-                />
+                <span>{tokenDest.ticker}</span>
               </>
             ) : (
-              "Input amount destination token/chain"
+              "Click to select destination token/chain"
             )}
-          </div>
-          <div className={styles.rangeDiv}>
-            <div className={styles.firstLineRange}>
-              <div>Lowest accepted rate</div>
-              <div>{acceptedRate}</div>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max={destAmount}
-              step={getStepValue(destAmount || 0)}
-              value={acceptedRate}
-              onChange={(e) => setAcceptedRate(Number(e.target.value) || 0)}
-              className={styles.slider}
-            />
-          </div>
-          <div className={styles.rangeDiv}>
-            <div className={styles.firstLineRange}>
-              <div>Time frame</div>
-              <div>{timeFrame} days</div>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="7"
-              step="0.1"
-              onChange={(e) => setTimeFrame(Number(e.target.value))}
-              className={styles.slider}
-            />
-          </div>
-        </>
-      ) : (
-        <ListTokens
-          onSelectToken={
-            whatToDisplay === "tokensSource"
-              ? handleSelectTokenSource
-              : handleSelectTokenDest
-          }
-        />
-      )}
-      {isConnected ? (
-        allowance.isGreaterThanOrEqualTo(sourceAmount || 0) ? (
-          <button className={styles.bridgeButton} onClick={makeTheBid}>
-            Click to bridge
           </button>
+        </div>
+        {whatToDisplay === "inputs" ? (
+          <>
+            <div className={styles.lineInputSource}>
+              {tokenSource ? (
+                <>
+                  <div className={styles.divImg}>
+                    <img
+                      src={tokenSource.image_url}
+                      alt={`${tokenSource.name} logo`}
+                    />
+                    <div className={styles.blockchainDiv}>
+                      <img
+                        src={getChainUrl(tokenSource.chain_id)}
+                        alt="Logo of blockchain"
+                      />
+                    </div>
+                  </div>
+                  <input
+                    type="number"
+                    value={sourceAmount}
+                    onChange={handleSourceAmountChange}
+                    placeholder="Amount"
+                  />
+                </>
+              ) : (
+                "Input amount source token/chain"
+              )}
+            </div>
+            <div className={styles.lineInputDest}>
+              {tokenDest ? (
+                <>
+                  <div className={styles.divImg}>
+                    <img
+                      src={tokenDest.image_url}
+                      alt={`${tokenDest.name} logo`}
+                    />
+                    <div className={styles.blockchainDiv}>
+                      <img
+                        src={getChainUrl(tokenDest.chain_id)}
+                        alt="Logo of blockchain"
+                      />
+                    </div>
+                  </div>
+                  <input
+                    type="number"
+                    value={destAmount}
+                    readOnly
+                    placeholder="Recommended value"
+                  />
+                </>
+              ) : (
+                "Input amount destination token/chain"
+              )}
+            </div>
+            <div className={styles.rangeDiv}>
+              <div className={styles.firstLineRange}>
+                <div>Lowest accepted rate</div>
+                <div>{acceptedRate}</div>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max={destAmount}
+                step={getStepValue(destAmount || 0)}
+                value={acceptedRate}
+                onChange={(e) => setAcceptedRate(Number(e.target.value) || 0)}
+                className={styles.slider}
+              />
+            </div>
+            <div className={styles.rangeDiv}>
+              <div className={styles.firstLineRange}>
+                <div>Time frame</div>
+                <div>{timeFrame} days</div>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="7"
+                step="0.1"
+                onChange={(e) => setTimeFrame(Number(e.target.value))}
+                className={styles.slider}
+              />
+            </div>
+          </>
         ) : (
-          <button className={styles.bridgeButton} onClick={approveToken}>
-            Approve Token
+          <ListTokens
+            onSelectToken={
+              whatToDisplay === "tokensSource"
+                ? handleSelectTokenSource
+                : handleSelectTokenDest
+            }
+          />
+        )}
+        {isConnected ? (
+          allowance.isGreaterThanOrEqualTo(sourceAmount || 0) ? (
+            <button
+              className={styles.bridgeButton}
+              onClick={makeTheBid}
+              // onClick={() => setDisplayAuctions(!displayAuctions)}
+            >
+              Click to bridge
+            </button>
+          ) : (
+            <button className={styles.bridgeButton} onClick={approveToken}>
+              Approve Token
+            </button>
+          )
+        ) : (
+          <button className={styles.bridgeButton} onClick={() => open()}>
+            Connect
           </button>
-        )
-      ) : (
-        <button className={styles.bridgeButton} onClick={() => open()}>
-          Connect
-        </button>
-      )}
+        )}
+      </div>
+      {displayAuctions && <InterfaceClaim />}
     </div>
   );
 };

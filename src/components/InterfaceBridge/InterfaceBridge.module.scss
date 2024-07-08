@@ -1,3 +1,15 @@
+.mainContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: fit-content;
+  & > *:last-child {
+    max-height: 650px;
+    overflow: scroll;
+  }
+}
+
 .interfaceBridge {
   display: flex;
   flex-direction: column;
@@ -11,11 +23,11 @@
   margin-top: 3vh;
   position: relative;
   background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
-    backdrop-filter: blur(20px); /* Background blur */
-    -webkit-backdrop-filter: blur(10px); /* For Safari */
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  backdrop-filter: blur(20px); /* Background blur */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 15px; /* Rounded corners */
 
   .backBtn {
     position: absolute;
@@ -24,7 +36,6 @@
     width: fit-content;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 15px; /* Rounded corners */
-    
   }
 
   .lineTokens {
@@ -54,12 +65,12 @@
     .tokenSource,
     .tokenDest {
       color: black;
-    
+
       flex: 1;
       padding: 14px;
-     background-color: white;
-     border: 1px solid rgba(255, 255, 255, 0.3);
-     border-radius: 15px; /* Rounded corners */
+      background-color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px; /* Rounded corners */
       cursor: pointer;
       height: 80px;
       display: flex;
@@ -103,12 +114,11 @@
     width: 100%;
     padding: 16px;
     box-sizing: border-box;
-   background-color: white;
+    background-color: white;
     text-align: center;
-    height: 80px; 
+    height: 80px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 15px; /* Rounded corners */
-  
 
     .divImg {
       position: relative;
@@ -137,7 +147,6 @@
       background-color: inherit;
       font-size: 24px;
       color: black;
-  
     }
   }
   .rangeDiv {
