@@ -102,7 +102,12 @@ After 3,5 days Bob notices that there's an open standing request of 14.925 $USDC
 
 #### Website
 - [vercel](https://under-wei.vercel.app/)
+
+#### Video
 - [demo](ADD LINK)
+
+#### Presentation
+- [slides](https://github.com/Benoitded/UnderWei/blob/main/SLIDES.md)
 
 #### Github
 - [Front-End](https://github.com/Benoitded/UnderWei)
