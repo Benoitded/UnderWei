@@ -1,4 +1,5 @@
 .mainOffers {
+ color: black;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -11,11 +12,26 @@
     max-width: 600px;
   }
   .linePendingClaim {
+    color: black;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+    backdrop-filter: blur(20px); /* Background blur */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 15px; /* Rounded corners */
+    color: black;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     & > * {
+      background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+      backdrop-filter: blur(20px); /* Background blur */
+      -webkit-backdrop-filter: blur(10px); /* For Safari */
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 15px; /* Rounded corners */
+      color: black;
       display: flex;
       justify-content: center;
       align-items: center;
