@@ -5,17 +5,26 @@
   align-items: center;
   padding: 60px 20px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   max-width: 600px;
   width: 100%;
   margin-top: 5vh;
   position: relative;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+    backdrop-filter: blur(20px); /* Background blur */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 15px; /* Rounded corners */
 
   .backBtn {
     position: absolute;
     top: 20px;
     left: 20px;
     width: fit-content;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px; /* Rounded corners */
+    
   }
 
   .lineTokens {
@@ -31,20 +40,25 @@
       transform: translate(-50%, -50%);
       width: 40px;
       height: 40px;
-      border: 1px solid white;
-      background-color: black;
+      background-color: rgba(157, 157, 157, 0.7);
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px; /* Rounded corners */
       &:hover {
-        color: #ffffff20;
+        color: black;
       }
     }
     .tokenSource,
     .tokenDest {
+      color: black;
+    
       flex: 1;
       padding: 14px;
-      border: 1px solid #ccc;
+     background-color: white;
+     border: 1px solid rgba(255, 255, 255, 0.3);
+     border-radius: 15px; /* Rounded corners */
       cursor: pointer;
       height: 80px;
       display: flex;
@@ -88,9 +102,12 @@
     width: 100%;
     padding: 16px;
     box-sizing: border-box;
-    border: 1px solid #ccc;
+   background-color: white;
     text-align: center;
-    height: 80px;
+    height: 80px; 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px; /* Rounded corners */
+  
 
     .divImg {
       position: relative;
@@ -118,6 +135,8 @@
       width: 100%;
       background-color: inherit;
       font-size: 24px;
+      color: black;
+  
     }
   }
   .rangeDiv {
@@ -139,7 +158,8 @@
     width: 100%;
     margin-top: 30px;
     border: none;
-    background-color: #ffffff20;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px; /* Rounded corners */
     color: white;
     cursor: pointer;
     &:hover {
