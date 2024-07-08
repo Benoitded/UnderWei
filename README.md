@@ -103,17 +103,17 @@ After 3,5 days Bob notices that there's an open standing request of 14.925 $USDC
 ## Deployments
 
 #### Website
-- [vercel](https://under-wei.vercel.app/)
+- [Vercel](https://under-wei.vercel.app/)
 
 #### Presentation
-- [slides](https://github.com/Benoitded/UnderWei/blob/main/SLIDES.md)
+- [Slides](https://github.com/Benoitded/UnderWei/blob/main/SLIDES.md)
 
 #### Github
 - [Front-End](https://github.com/Benoitded/UnderWei)
 - [Contracts](https://github.com/Tranquil-Flow/shared-security-hackathon-contracts)
 
 #### AVS
-- [github](https://github.com/asanson1404/underwei-AVS)
+- [Github](https://github.com/asanson1404/underwei-AVS)
 
 #### Contract Addresses (HOLESKY)
 
