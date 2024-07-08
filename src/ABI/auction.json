@@ -100,6 +100,12 @@
         "internalType": "uint256",
         "name": "acceptOfferTimestamp",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "acceptOfferBlockNumber",
+        "type": "uint256"
       }
     ],
     "name": "AuctionAccepted",
@@ -514,6 +520,96 @@
         "internalType": "struct AuctionReward.AcceptedAuction",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllAcceptedAuctions",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "bool", "name": "auctionAccepted", "type": "bool" },
+          { "internalType": "uint256", "name": "auctionId", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "createdAuctionChainId",
+            "type": "uint256"
+          },
+          { "internalType": "address", "name": "seller", "type": "address" },
+          { "internalType": "address", "name": "buyer", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "tokenForAccepting",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountPaying",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "acceptOfferTimestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct AuctionReward.AcceptedAuction[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllCreatedAuctions",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "bool", "name": "auctionOpen", "type": "bool" },
+          { "internalType": "address", "name": "seller", "type": "address" },
+          { "internalType": "address", "name": "buyer", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "tokenForSale",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "tokenForPayment",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountForSale",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startingPrice",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "endPrice", "type": "uint256" },
+          { "internalType": "uint256", "name": "startAt", "type": "uint256" },
+          { "internalType": "uint256", "name": "expiresAt", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "auctionChainID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "acceptingOfferChainID",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct AuctionReward.CreatedAuction[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",

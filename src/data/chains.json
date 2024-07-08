@@ -11,7 +11,7 @@
     "chain_id": 80002,
     "image_url": "https://qboizbrjtkumfrvstono.supabase.co/storage/v1/object/public/pictures_blockchains/Polygon.png",
     "isDisabled": false,
-    "explorer_url": "https://www.oklink.com/amoy/"
+    "explorer_url": "https://amoy.polygonscan.com/"
   },
   {
     "name": "Arbitrum Sepolia",

@@ -16,16 +16,12 @@ import addresses from "../../ABI/address.json"; // Import addresses
 import erc20ABI from "../../ABI/erc20ABI.json"; // Import addresses
 import { holesky, polygonAmoy } from "wagmi/chains";
 import BigNumber from "bignumber.js";
-import { ethers, formatEther, parseEther } from "ethers";
+import { ethers, formatEther, parseEther, parseUnits } from "ethers";
 import { toast } from "react-hot-toast";
+import { Token } from "@/types/generalTypes";
 
-interface TokenData {
-  name: string;
-  ticker: string;
-  contract: string;
-  contract_mainnet: string; // Add contract_mainnet to the interface
+interface TokenData extends Token {
   chain_id: number;
-  image_url: string;
 }
 
 const InterfaceBridge: React.FC = () => {
@@ -74,7 +70,7 @@ const InterfaceBridge: React.FC = () => {
     address: tokenSource?.contract as `0x${string}`,
     abi: erc20ABI,
     functionName: "allowance",
-    args: [address, addresses.Holesky.AuctionReward],
+    args: [address, addressContract],
   });
 
   useEffect(() => {
@@ -84,6 +80,7 @@ const InterfaceBridge: React.FC = () => {
   }, [tokenSource?.chain_id]);
 
   useEffect(() => {
+    console.log("allowanceData: ", allowanceData);
     if (allowanceData) {
       setAllowance(new BigNumber(formatEther(allowanceData as string)));
     }
@@ -206,31 +203,47 @@ const InterfaceBridge: React.FC = () => {
   }, [isSuccess]);
 
   function makeTheBid() {
-    console.log("make the biddd");
-    const startingPriceInWei = parseEther((acceptedRate || 0).toString());
-    const endPriceInWei = parseEther((destAmount || 0).toString());
-    const amountForSaleInWei = parseEther((sourceAmount || 0).toString());
-    // need to do the same with destAmount
-    const args = [
-      tokenSource?.contract,
-      tokenDest?.contract,
-      startingPriceInWei,
-      endPriceInWei,
-      new BigNumber(timeFrame * 24 * 60 * 60).toString(), // Convert days to seconds
-      amountForSaleInWei,
-      tokenSource?.chain_id,
-      tokenDest?.chain_id,
-    ];
-
-    console.log(args);
-
     try {
+      console.log("make the biddd");
+
+      if (!tokenSource || !tokenDest) {
+        throw new Error("Token source or destination not defined");
+      }
+
+      const acceptedRateInWei = parseUnits(
+        acceptedRate.toFixed(tokenDest.decimals),
+        tokenDest.decimals
+      );
+
+      const endPriceInWei = parseUnits(
+        (destAmount || 0).toFixed(tokenDest.decimals),
+        tokenDest.decimals
+      );
+
+      const amountForSaleInWei = parseUnits(
+        (sourceAmount || 0).toFixed(tokenSource.decimals),
+        tokenSource.decimals
+      );
+
+      const args = [
+        tokenSource.contract,
+        tokenDest.contract,
+        acceptedRateInWei,
+        endPriceInWei,
+        new BigNumber(timeFrame * 24 * 60 * 60).toString(), // Convert days to seconds
+        amountForSaleInWei,
+        tokenSource.chain_id,
+        tokenDest.chain_id,
+      ];
+
+      console.log(args);
+
       writeContract({
         abi: auctionABI,
         address: addressContract as `0x${string}`,
         functionName: "createAuction",
         args,
-        chainId: tokenSource?.chain_id,
+        chainId: tokenSource.chain_id,
       });
       console.log("on ecrit");
     } catch (error) {

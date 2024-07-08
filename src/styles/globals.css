@@ -118,6 +118,19 @@ input[type="number"] {
     padding-right: 20px; */
 }
 
+/* Tooltip */
+
+.confirmedTransaction {
+  display: flex;
+  flex-direction: column;
+  a {
+    text-decoration: underline;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
 /**********WalletConnect********/
 
 .partial-connect-button {

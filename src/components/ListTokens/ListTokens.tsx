@@ -12,6 +12,7 @@ interface ListTokensProps {
     contract_mainnet: string;
     chain_id: number;
     image_url: string;
+    decimals: number;
   }) => void;
 }
 

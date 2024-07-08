@@ -12,6 +12,7 @@ export interface Token {
   image_url: string;
   contract: string;
   contract_mainnet: string;
+  decimals: number;
 }
 
 export interface TokensData {

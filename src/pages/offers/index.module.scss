@@ -1,28 +1,30 @@
-.header {
+.mainOffers {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  padding: 20px;
-  .logo,
-  .connect {
-    width: 200px;
-    min-width: 200px;
+  gap: 20px;
+  padding-top: 3vh;
+  margin: 10px;
+  & > * {
+    width: 100%;
+    max-width: 600px;
   }
-  .connect {
+  .linePendingClaim {
     display: flex;
-    justify-content: flex-end;
-    cursor: pointer;
-  }
-  .menu {
-    display: flex;
-    .itemMenu {
-      padding: 7px 13px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    & > * {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 6px;
-      &:hover {
-        text-decoration: underline;
+      width: 100%;
+      border: 1px solid white;
+      padding: 10px;
+      white-space: nowrap;
+      &.selected {
+        background-color: #ffffff20;
       }
     }
   }

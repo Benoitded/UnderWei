@@ -1,0 +1,32 @@
+.pendingClaims {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid white;
+  .logo,
+  .connect {
+    width: 120px;
+    min-width: 120px;
+  }
+  .connect {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+  .menu {
+    display: flex;
+    .itemMenu {
+      padding: 7px 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      &:hover,
+      &.current {
+        text-decoration: underline;
+      }
+    }
+  }
+}
