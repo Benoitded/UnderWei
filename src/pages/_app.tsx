@@ -31,6 +31,8 @@ const DynamicPool = dynamic(() => import("../components/layout.js"), {
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
+
+    
       <Toaster
         position="bottom-right"
         toastOptions={{

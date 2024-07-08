@@ -48,7 +48,7 @@ body {
   display: flex;
   justify-content: center;
   background-color: var(--main-background);
-  /* background-image: url("./assets/background.png"); */
+  background-image: url("./assets/background.png");
   color: var(--main-text);
   font-family: "Satoshi", sans-serif;
   font-weight: 500;
