@@ -1,6 +1,8 @@
 ###   UNDERWEI
 *A P2P Cross-chain Bridge*
 
+---
+
 ![1-intro 1](https://hackmd.io/_uploads/BksW72uwC.png)
 
 > *I am a new bridge, I come in peace, and am accessible for all. An open-source peer-2-peer censorship-resistant bridge is where my label falls.*
@@ -102,9 +104,6 @@ After 3,5 days Bob notices that there's an open standing request of 14.925 $USDC
 
 #### Website
 - [vercel](https://under-wei.vercel.app/)
-
-#### Video
-- [demo](ADD LINK)
 
 #### Presentation
 - [slides](https://github.com/Benoitded/UnderWei/blob/main/SLIDES.md)
