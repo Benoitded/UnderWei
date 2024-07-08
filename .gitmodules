@@ -4,3 +4,6 @@
 [submodule "avs"]
 	path = avs
 	url = https://github.com/asanson1404/underwei-AVS
+[submodule "contract"]
+	path = contract
+	url = https://github.com/Tranquil-Flow/shared-security-hackathon-contracts
