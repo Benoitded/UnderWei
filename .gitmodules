@@ -1,0 +1,3 @@
+[submodule "contracts/shared-security-hackathon-contracts"]
+	path = contracts/shared-security-hackathon-contracts
+	url = https://github.com/Tranquil-Flow/shared-security-hackathon-contracts
