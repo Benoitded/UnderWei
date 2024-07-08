@@ -21,7 +21,7 @@ Through new mechanisms we prevent major security threats.
 
 #### How do I do this?
 
-![Untitled (10)](https://hackmd.io/_uploads/Sylyf2_wC.png)
+<img width="2482" alt="Untitled (11)" src="https://github.com/Benoitded/UnderWei/assets/101796507/eb310754-7870-42bf-996f-38481e925962">
 
 
 
@@ -61,19 +61,21 @@ After 3,5 days Bob notices that there's an open standing request of 14.925 USDC 
 ### Tech Stack
 
 #### AVS Task Summary:
+1. The performer is elected through a round robin mechanism, this is the blocknumber modulor the number of operators
 
-
-1. Every operator knows who is supposed to send a task in the next block. If the current performer is the operator itself, it performs the task. 
-
-2. We filter the accepted transactions to find the ActionCreated event with the matching auctionId
-
-3. Verify that Auction will be accepted before its expiration
+2. The performer will listen to the network, and everytime an event is emitted the performer runs the task logic. This latter consists of verifying the ability of creation of the transaction.  (variable; txAccepted)
+    - Verify that Auction will be accepted before its expiration
         
-4. Verify the P2P agreed exchange price
+    - Verify the P2P agreed exchange price
 
-5. Verify that the tokens to be identical
+    - Verify that the tokens to be identical
 
-6. Sign with the current timestamp. This timestamp will be used as the seed for our PRNG smart contract
+4. The performer sends his result to the attestors network. All the validators will simulate the tx in their turn. And verify if they have the same output. 
+
+6. If more than 66% of the network agree, then the task is valid and executed on chain. 
+
+
+
 
 
 #### Frameworks and Languages
