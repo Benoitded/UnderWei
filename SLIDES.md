@@ -1,5 +1,7 @@
-# Underwei
+###   UNDERWEI
+*A P2P Cross-chain Bridge*
 
+---
 
 ![1-intro (1)](https://github.com/Benoitded/UnderWei/assets/101796507/5a8bac78-6b91-4e26-8e94-4faa46b770c8)
 ![2-what](https://github.com/Benoitded/UnderWei/assets/101796507/344b0438-f92f-4a83-81f6-368093656cbe)
